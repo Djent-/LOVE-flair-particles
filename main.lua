@@ -60,8 +60,6 @@ function love.load()
 end
 
 function love.draw()
-	love.graphics.print(love.timer.getTime(), 5, 5)
-	love.graphics.print(timer, 5, 15)
 	if #particles == 0 then return end
 	for x = 1, #particles do
 		love.graphics.draw(particles[x].canvas, particles[x].x + particles[x].x_mod,
