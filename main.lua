@@ -10,6 +10,12 @@ function square:new(x,y)
 	self.y_mod = 0
 	self.x_angle = 0
 	self.y_angle = 0
+	local a = math.random(0,1)
+	a = a - 1; if a == 0 then a = 1 end
+	local b = math.random(0,1)
+	b = b - 1; if b == 0 then b = 1 end
+	self.random_x_direction = a
+	self.random_y_direction = b
 	self.w = 40
 	self.h = 40
 	self.angle = 0
@@ -24,6 +30,8 @@ end
 function love.update(dt)
 	if #particles == 0 then return end
 	for x = 1, #particles do
+		particles[x].x_angle = particles[x].x_angle + (math.pi / 8) * dt
+		particles[x].y_angle = particles[x].y_angle + (math.pi / 8) * dt
 		particles[x].angle = particles[x].angle + math.pi * dt
 		particles[x].phase = particles[x].phase + math.pi * dt
 	end
