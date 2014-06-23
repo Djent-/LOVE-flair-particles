@@ -37,8 +37,9 @@ end
 function love.draw()
 	if #particles == 0 then return end
 	for x = 1, #particles do
-		love.graphics.draw(particles[x].canvas, particles[x].x, particles[x].y,
-			particles[x].angle, 1 + math.sin(particles[x].phase),
-			1 + math.sin(particles[x].phase), particles[x].w/2, particles[x].h/2)
+		love.graphics.draw(particles[x].canvas, particles[x].x + particles[x].x_mod,
+			particles[x].y + particles[x].y_mod, particles[x].angle,
+			1 + math.sin(particles[x].phase), 1 + math.sin(particles[x].phase),
+			particles[x].w/2, particles[x].h/2)
 	end
 end
