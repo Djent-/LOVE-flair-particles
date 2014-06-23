@@ -4,6 +4,7 @@ particles = {}
 
 function square:new(x,y)
 	local self = {}
+	self.ID = #particles + 1
 	self.x = x
 	self.y = y
 	self.x_mod = 0
@@ -30,6 +31,7 @@ end
 function love.update(dt)
 	if #particles == 0 then return end
 	for x = 1, #particles do
+		particles[x].ID = x
 		particles[x].x_angle = particles[x].x_angle + (math.pi / 8) * dt
 		particles[x].y_angle = particles[x].y_angle + (math.pi / 8) * dt
 		particles[x].angle = particles[x].angle + math.pi * dt
