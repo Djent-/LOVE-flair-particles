@@ -6,6 +6,10 @@ function square:new(x,y)
 	local self = {}
 	self.x = x
 	self.y = y
+	self.x_mod = 0
+	self.y_mod = 0
+	self.x_angle = 0
+	self.y_angle = 0
 	self.w = 40
 	self.h = 40
 	self.angle = 0
@@ -19,7 +23,7 @@ end
 
 function love.update(dt)
 	if #particles == 0 then return end
-	for x = 1, #squares do
+	for x = 1, #particles do
 		particles[x].angle = particles[x].angle + math.pi * dt
 		particles[x].phase = particles[x].phase + math.pi * dt
 	end
