@@ -17,15 +17,31 @@ function square:new(x,y)
 	b = b - 1; if b == 0 then b = 1 end
 	self.random_x_direction = a
 	self.random_y_direction = b
-	self.w = 20
-	self.h = 20
+	if self.random_x_direction < 1 then
+		self.x_draw = self.x - (math.sin(self.x_angle) * self.x_mod)
+	else
+		self.x_draw = self.x + (math.sin(self.x_angle) * self.x_mod)
+	end
+	if self.random_y_direction < 1 then
+		self.y_draw = self.y - (math.cos(self.y_angle) * self.y_mod)
+	else
+		self.y_draw = self.y + (math.cos(self.y_angle) * self.y_mod)
+	end
+	self.w = 10
+	self.h = 10
 	self.angle = 0
 	self.phase = 0
-	self.canvas = love.graphics.newCanvas(40,40)
+	self.canvas = love.graphics.newCanvas(self.w, self.h)
 	love.graphics.setCanvas(self.canvas)
-	love.graphics.rectangle("line", 0, 0, 40, 40)
+	love.graphics.rectangle("line", 0, 0, self.w, self.h)
 	love.graphics.setCanvas()
 	self.kill = function(self) table.remove(particles, self.ID) end
+	self.draw = function(self)
+			love.graphics.draw(self.canvas, self.x_draw,
+				self.y_draw, self.angle,
+				1 + math.sin(self.phase), 1 + math.sin(self.phase),
+				self.w/2, self.h/2)
+		end
 	return self
 end
 
@@ -62,9 +78,6 @@ end
 function love.draw()
 	if #particles == 0 then return end
 	for x = 1, #particles do
-		love.graphics.draw(particles[x].canvas, particles[x].x + particles[x].x_mod,
-			particles[x].y + particles[x].y_mod, particles[x].angle,
-			1 + math.sin(particles[x].phase), 1 + math.sin(particles[x].phase),
-			particles[x].w/2, particles[x].h/2)
+		particles[x]:draw()
 	end
 end
