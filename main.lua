@@ -1,6 +1,6 @@
 --main.lua
 square = {}
-squares = {}
+particles = {}
 
 function square:new(x,y)
 	local self = {}
@@ -18,14 +18,23 @@ function square:new(x,y)
 end
 
 function love.update(dt)
-	if #squares == 0 then return end
+	if #particles == 0 then return end
 	for x = 1, #squares do
-		squares[x].angle = squares[x].angle + math.pi * dt
-		squares[x].phase = squares[x].phase + math.pi * dt
+		particles[x].angle = particles[x].angle + math.pi * dt
+		particles[x].phase = particles[x].phase + math.pi * dt
 	end
 end
 
 function love.load()
 	love.graphics.setBackgroundColor(255,255,255)
 	love.graphics.setColor(0,0,0)
+end
+
+function love.draw()
+	if #particles == 0 then return end
+	for x = 1, #particles do
+		love.graphics.draw(particles[x].canvas, particles[x].x, particles[x].y,
+			particles[x].angle, 1 + math.sin(particles[x].phase),
+			1 + math.sin(particles[x].phase), particles[x].w/2, particles[x].h/2)
+	end
 end
