@@ -7,26 +7,14 @@ function square:new(x,y)
 	self.ID = #particles + 1
 	self.x = x
 	self.y = y
-	self.x_mod = 0
-	self.y_mod = 0
+	self.x_mod = 20
+	self.y_mod = 20
 	self.x_angle = 0
 	self.y_angle = 0
 	local a = math.random(0,1)
-	a = a - 1; if a == 0 then a = 1 end
 	local b = math.random(0,1)
-	b = b - 1; if b == 0 then b = 1 end
 	self.random_x_direction = a
 	self.random_y_direction = b
-	if self.random_x_direction < 1 then
-		self.x_draw = self.x - (math.sin(self.x_angle) * self.x_mod)
-	else
-		self.x_draw = self.x + (math.sin(self.x_angle) * self.x_mod)
-	end
-	if self.random_y_direction < 1 then
-		self.y_draw = self.y - (math.cos(self.y_angle) * self.y_mod)
-	else
-		self.y_draw = self.y + (math.cos(self.y_angle) * self.y_mod)
-	end
 	self.w = 10
 	self.h = 10
 	self.angle = 0
@@ -42,6 +30,21 @@ function square:new(x,y)
 				1 + math.sin(self.phase), 1 + math.sin(self.phase),
 				self.w/2, self.h/2)
 		end
+	self.update = function(self, dt)
+			if self.random_x_direction < 1 then
+				self.x_draw = self.x - (math.sin(self.x_angle) * self.x_mod)
+			else
+				self.x_draw = self.x + (math.sin(self.x_angle) * self.x_mod)
+			end
+			self.x_mod = self.x_mod + (dt * 30)
+			if self.random_y_direction < 1 then
+				self.y_draw = self.y - (math.cos(self.y_angle) * self.y_mod)
+			else
+				self.y_draw = self.y + (math.cos(self.y_angle) * self.y_mod)
+			end
+			self.y_mod = self.y_mod + (dt * 30)
+		end
+	self:update(0)
 	return self
 end
 
@@ -54,10 +57,11 @@ function love.update(dt)
 	for x = 1, #particles do
 		if particles[x] then
 			particles[x].ID = x
-			particles[x].x_angle = particles[x].x_angle + (math.pi / 8) * dt
-			particles[x].y_angle = particles[x].y_angle + (math.pi / 8) * dt
+			particles[x].x_angle = particles[x].x_angle + (math.pi) * dt
+			particles[x].y_angle = particles[x].y_angle + (math.pi) * dt
 			particles[x].angle = particles[x].angle + math.pi * dt
 			particles[x].phase = particles[x].phase + math.pi * dt
+			particles[x]:update(dt)
 		end
 	end
 	for x = 1, #particles do
